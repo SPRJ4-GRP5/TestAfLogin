@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using TestAfLogin.Models;
@@ -25,6 +26,7 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private FieldOfStudyModel fieldOfStudy;
 
         public RegisterModel(
             UserManager<ApplicationUser> userManager,
@@ -36,6 +38,17 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+        }
+
+
+        // Select list of Field Of Study
+        //public SelectList FieldOfStudySelectList { get; set; }
+
+        public SelectList FieldOfStudySelectList { get; set; }
+
+        public void OnGetFieldOfStudy()
+        {
+            FieldOfStudySelectList = new SelectList(new FieldOfStudyModel().FieldOfStudy);
         }
 
         [BindProperty]
@@ -53,7 +66,7 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
             public string Name { get; set; }
 
             [Required]
-            [EmailAddress]
+            //[EmailAddress]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
@@ -67,6 +80,26 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [PersonalData]
+            [Display(Name = "Birthday")]
+            public string Birthday { get; set; }
+
+            [Required]
+            [PersonalData]
+            [Display(Name = "Phone number:")]
+            public string PhoneNumber { get; set; }
+
+            [Required]
+            [PersonalData]
+            [Display(Name = "Field of Study")]
+            public string FieldOfStudy { get; set; }
+
+            [PersonalData]
+            [Display(Name = "Term: ")]
+            public string Term { get; set; }
+
         }
 
         public async Task OnGetAsync(string returnUrl = null)
@@ -84,8 +117,8 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
                 var user = new ApplicationUser()
                 {
                     Name = Input.Name,
-                    UserName = Input.Email, 
-                    Email = Input.Email
+                    UserName = Input.Email + "@uni.au.dk", 
+                    Email = Input.Email + "@uni.au.dk"
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

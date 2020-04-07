@@ -22,6 +22,18 @@ namespace TestAfLogin.Models
         [PersonalData]
         public string Name { get; set; }
 
+        [Required]
+        [PersonalData]
+        public string Birthday { get; set; }
 
+        [Required]
+        [PersonalData]
+        public List<FieldOfStudyModel> FieldOfStudy { get; set; }
+
+        [PersonalData]
+        public int Term { get; set; }
+
+        [PersonalData]
+        public List<CourseModel> courses { get; set; }
     }
 }

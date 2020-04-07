@@ -35,6 +35,8 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
                 return RedirectToPage("/Index");
             }
 
+            email = email + "@uni.au.dk";
+
             var user = await _userManager.FindByEmailAsync(email);
             if (user == null)
             {

@@ -31,8 +31,18 @@ namespace TestAfLogin
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("MyConnectionString")));
-            services.AddDefaultIdentity<ApplicationUser>(options => options.SignIn.RequireConfirmedAccount = true)
+                    Configuration.GetConnectionString("JonasConnectionString")));
+            services.AddDefaultIdentity<ApplicationUser>(options =>
+                {
+                    // Password settings
+                    //options.Password.RequireDigit = true;
+                    //options.Password.RequiredLength = 8;
+                    //options.Password.RequireNonAlphanumeric = false;
+                    //options.Password.RequireUppercase = true;
+                    //options.Password.RequireLowercase = false;
+
+                    options.SignIn.RequireConfirmedAccount = true;
+                })
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
