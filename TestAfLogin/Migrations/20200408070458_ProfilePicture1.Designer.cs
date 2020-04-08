@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TestAfLogin.Data;
 
 namespace TestAfLogin.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200408070458_ProfilePicture1")]
+    partial class ProfilePicture1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -259,14 +261,8 @@ namespace TestAfLogin.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("NameOfUser")
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<int>("Term")
                         .HasColumnType("int");
-
-                    b.Property<string>("imageName")
-                        .HasColumnType("nvarchar(100)");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });

@@ -1,0 +1,30 @@
+﻿@model TestAfLogin.Models.ProfilePictureModel
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ProfilePictureModel</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.NameOfUser)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.NameOfUser)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.imageName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.imageName)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.PictureId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
