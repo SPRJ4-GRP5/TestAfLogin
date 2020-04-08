@@ -15,6 +15,5 @@ namespace TestAfLogin.Data
         }
         public DbSet<ApplicationUser> MApplicationUsers { get; set; }
         public DbSet<CourseModel> MCourseModel { get; set; }
-        public DbSet<FieldOfStudyModel> MFieldOfStudyModels { get; set; }
     }
 }

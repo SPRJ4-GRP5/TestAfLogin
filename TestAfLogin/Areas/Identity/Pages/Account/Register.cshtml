@@ -1,4 +1,5 @@
 ﻿@page
+@using System.Linq
 @using System.Security.Cryptography.X509Certificates
 @using TestAfLogin.Models
 @model RegisterModel
@@ -22,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="Input.Email"></label>
-                <input asp-for="Input.Email" class="form-control" />
+                <input asp-for="Input.Email" class="form-control"/>
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
                 <label>&#64uni.au.dk</label>
             </div>
@@ -41,14 +42,16 @@
                 <input asp-for="Input.Birthday" class="form-control" />
                 <span asp-validation-for="Input.Birthday" class="text-danger"></span>
             </div>
+
+            
             <div class="form-group">
-                <label asp-for="Input.FieldOfStudy"></label>
-                @*<input asp-for="Input.FieldOfStudy" class="form-control" />*@
-                <select name="FieldOfStudy" asp-items="Model.FieldOfStudySelectList"></select>
-
-
+                <label asp-for="Input.FieldOfStudy"></label><br/>
+                <select asp-for="Input.FieldOfStudy" asp-items="Model.fos">
+                    <option value="">Choose to select</option>
+                </select>
                 <span asp-validation-for="Input.FieldOfStudy" class="text-danger"></span>
             </div>
+
             <div class="form-group">
                 <label asp-for="Input.Term"></label>
                 <input asp-for="Input.Term" class="form-control" />

@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApplicationModels;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
@@ -38,18 +39,15 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+
+            fos = new List<SelectListItem>();
+            fos.Add(new SelectListItem() { Text = "Softwareteknologi", Value = "Softwareteknologi" });
+            fos.Add(new SelectListItem() { Text = "Sundhedsteknologi", Value = "Sundhedsteknologi" });
+            fos.Add(new SelectListItem() { Text = "Elektronikteknologi", Value = "Elektronikteknologi" });
         }
 
+        public List<SelectListItem> fos { get; set; }
 
-        // Select list of Field Of Study
-        //public SelectList FieldOfStudySelectList { get; set; }
-
-        public SelectList FieldOfStudySelectList { get; set; }
-
-        public void OnGetFieldOfStudy()
-        {
-            FieldOfStudySelectList = new SelectList(new FieldOfStudyModel().FieldOfStudy);
-        }
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -67,6 +65,7 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
 
             [Required]
             //[EmailAddress]
+            [StringLength(8, ErrorMessage = "Only write your AU-ID!")]
             [Display(Name = "Email")]
             public string Email { get; set; }
 
@@ -95,12 +94,13 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
             [PersonalData]
             [Display(Name = "Field of Study")]
             public string FieldOfStudy { get; set; }
-
+            
             [PersonalData]
-            [Display(Name = "Term: ")]
-            public string Term { get; set; }
+            [Display(Name = "Term")]
+            public int Term { get; set; }
 
         }
+
 
         public async Task OnGetAsync(string returnUrl = null)
         {
@@ -118,7 +118,12 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
                 {
                     Name = Input.Name,
                     UserName = Input.Email + "@uni.au.dk", 
-                    Email = Input.Email + "@uni.au.dk"
+                    Email = Input.Email + "@uni.au.dk",
+                    PhoneNumber = Input.PhoneNumber,
+                    Birthday = Input.Birthday,
+                    FieldOfStudy = 
+                        Input.FieldOfStudy,
+                    Term = Input.Term
                 };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)

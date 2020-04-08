@@ -5,16 +5,10 @@ using System.Threading.Tasks;
 
 namespace TestAfLogin.Models
 {
-    public class FieldOfStudyModel : ApplicationUser
+    public class FieldOfStudyModel
     {
-        private List<string> fieldOfStudy;
 
-        public FieldOfStudyModel()
-        {
-            fieldOfStudy = new List<string>();
-            fieldOfStudy.Add("Softwareteknologi");
-            fieldOfStudy.Add("Sundhedsteknologi");
-            fieldOfStudy.Add("Elektronikteknologi");
-        }
+
+
     }
 }
