@@ -31,7 +31,7 @@ namespace TestAfLogin
         {
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
-                    Configuration.GetConnectionString("JonasConnectionString")));
+                    Configuration.GetConnectionString("MyConnectionString")));
             services.AddDefaultIdentity<ApplicationUser>(options =>
                 {
                     // Password settings

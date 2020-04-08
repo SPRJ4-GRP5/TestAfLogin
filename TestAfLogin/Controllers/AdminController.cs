@@ -10,7 +10,6 @@ namespace TestAfLogin.Controllers
     [Authorize("IsAdmin")]
     public class AdminController : Controller
     {
-       
         public IActionResult AdminPage()
         {
             return View();
