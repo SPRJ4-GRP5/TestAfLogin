@@ -12,6 +12,8 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
 {
     public partial class IndexModel : PageModel
     {
+        public ApplicationUser AppUser { get; set; }
+
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
 
@@ -42,6 +44,7 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            this.AppUser = user;
 
             Username = userName;
 
@@ -49,6 +52,8 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
             {
                 PhoneNumber = phoneNumber
             };
+
+            
         }
 
         public async Task<IActionResult> OnGetAsync()
