@@ -42,6 +42,7 @@ namespace TestAfLogin.Models
         [Column(TypeName = "nvarchar(50)")]
         public string NameOfUser { get; set; }
 
+        [Required]
         [Column(TypeName = "nvarchar(100)")]
         [DisplayName("Image Name")]
         public string imageName { get; set; }

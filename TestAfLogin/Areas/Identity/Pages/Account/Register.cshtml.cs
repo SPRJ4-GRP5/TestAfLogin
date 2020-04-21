@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
@@ -56,6 +57,7 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
             fos.Add(new SelectListItem() { Text = "Softwareteknologi", Value = "Softwareteknologi" });
             fos.Add(new SelectListItem() { Text = "Sundhedsteknologi", Value = "Sundhedsteknologi" });
             fos.Add(new SelectListItem() { Text = "Elektronikteknologi", Value = "Elektronikteknologi" });
+            fos.Add(new SelectListItem() { Text = "NikolajSlikkerNumse", Value = "NikolajSlikkerNumse" });
         }
 
         public List<SelectListItem> fos { get; set; }
@@ -153,17 +155,20 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
                     //imageName = Input.imageName,
                     ImageFile = Input.ImageFile
                 };
-                //Saving image to wwwroot/image with filename and timestamp 
-                string wwwRootPath = _hostEnvironment.WebRootPath;
-                string fileName = Path.GetFileNameWithoutExtension(user.ImageFile.FileName); //name of the file
-                string extension = Path.GetExtension(user.ImageFile.FileName); //example .jpg .png
-                user.imageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension; //combine name and filetype and date
-                string path = Path.Combine(wwwRootPath + "/Image/", fileName);
-                using (var fileStream = new FileStream(path, FileMode.Create))
+
+                if (user.ImageFile != null)
                 {
-                    await user.ImageFile.CopyToAsync(fileStream);
+                    //Saving image to wwwroot/image with filename and timestamp 
+                    string wwwRootPath = _hostEnvironment.WebRootPath;
+                    string fileName = Path.GetFileNameWithoutExtension(user.ImageFile.FileName); //name of the file
+                    string extension = Path.GetExtension(user.ImageFile.FileName); //example .jpg .png
+                    user.imageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension; //combine name and filetype and date
+                    string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                    using (var fileStream = new FileStream(path, FileMode.Create))
+                    {
+                        await user.ImageFile.CopyToAsync(fileStream);
+                    }
                 }
-                
 
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
