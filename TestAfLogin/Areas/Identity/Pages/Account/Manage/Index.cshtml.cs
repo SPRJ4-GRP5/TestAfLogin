@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -16,13 +19,16 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
 
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly IWebHostEnvironment _hostEnvironment;
 
         public IndexModel(
             UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager)
+            SignInManager<ApplicationUser> signInManager,
+            IWebHostEnvironment hostEnvironment)
         {
             _userManager = userManager;
             _signInManager = signInManager;
+            _hostEnvironment = hostEnvironment;
         }
 
         public string Username { get; set; }
@@ -38,6 +44,10 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [PersonalData]
+            [Display(Name = "Upload file")]
+            public IFormFile ImageFile { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -45,16 +55,14 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
             this.AppUser = user;
-
             Username = userName;
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
-            };
-
-            
+                PhoneNumber = phoneNumber,
+            };      
         }
+
 
         public async Task<IActionResult> OnGetAsync()
         {
@@ -64,8 +72,32 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
             }
 
+
             await LoadAsync(user);
             return Page();
+        }
+
+        public async void ChangeProfilePicture(ApplicationUser user)
+        {
+            user.ImageFile = Input.ImageFile;
+            if (user.ImageFile != null)
+            {
+                var imagePath = Path.Combine(_hostEnvironment.WebRootPath, "image", user.imageName);
+                if (System.IO.File.Exists(imagePath))
+                    System.IO.File.Delete(imagePath);
+
+                //Saving image to wwwroot/image with filename and timestamp 
+                string wwwRootPath = _hostEnvironment.WebRootPath;
+                string fileName = Path.GetFileNameWithoutExtension(user.ImageFile.FileName); //name of the file
+                string extension = Path.GetExtension(user.ImageFile.FileName); //example .jpg .png
+                user.imageName = fileName = fileName + DateTime.Now.ToString("yymmssfff") + extension; //combine name and filetype and date
+                string path = Path.Combine(wwwRootPath + "/Image/", fileName);
+                using (var fileStream = new FileStream(path, FileMode.Create))
+                {
+                    await user.ImageFile.CopyToAsync(fileStream);
+                }
+               
+            }
         }
 
         public async Task<IActionResult> OnPostAsync()
@@ -80,6 +112,13 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
             {
                 await LoadAsync(user);
                 return Page();
+            }
+
+
+            if (ModelState.IsValid)
+            {
+                ChangeProfilePicture(user);
+                await _userManager.UpdateAsync(user);
             }
 
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
