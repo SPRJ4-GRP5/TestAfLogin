@@ -51,17 +51,10 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
             _emailSender = emailSender;
             _hostEnvironment = hostEnvironment;
             _context = context;
-
-
-            fos = new List<SelectListItem>();
-            fos.Add(new SelectListItem() { Text = "Softwareteknologi", Value = "Softwareteknologi" });
-            fos.Add(new SelectListItem() { Text = "Sundhedsteknologi", Value = "Sundhedsteknologi" });
-            fos.Add(new SelectListItem() { Text = "Elektronikteknologi", Value = "Elektronikteknologi" });
-            fos.Add(new SelectListItem() { Text = "NikolajSlikkerNumse", Value = "NikolajSlikkerNumse" });
         }
 
-        public List<SelectListItem> fos { get; set; }
 
+        public FieldOfStudy Fos = new FieldOfStudy();
 
         [BindProperty]
         public InputModel Input { get; set; }

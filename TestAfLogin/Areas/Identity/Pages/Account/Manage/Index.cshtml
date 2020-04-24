@@ -10,33 +10,84 @@
     ViewData["ActivePage"] = ManageNavPages.Index;
 }
 
-<h4>@ViewData["Title"]</h4>
+<h4>Profiloplysninger</h4>
 <partial name="_StatusMessage" model="Model.StatusMessage" />
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-7">
         <form id="profile-form" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Username"></label>
-                <input asp-for="Username" class="form-control" disabled />
+            <div style="margin-bottom: 0px;">
+                <div class="form-group">
+                    <label class="boldTextOnProfileSection" asp-for="Email"></label>
+                    <input asp-for="Email" class="form-control" disabled />
+                </div>
+                <label class="boldTextOnProfileSection" asp-for="Input.ImageFile" style="margin-bottom: 10px"></label>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <img class="circular--square2" src="@("~/image/" + Model.AppUser.imageName)" asp-append-version="true" />
+                        </div>
+                    </div>
+                    <div class="col-md-3 pbChangeButton">
+                        <div class="form-group">
+                            <input asp-for="Input.ImageFile" accept="image/*" />
+                            <span asp-validation-for="Input.ImageFile" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                <label asp-for="Input.PhoneNumber"></label>
+                <label class="boldTextOnProfileSection" asp-for="Input.PhoneNumber"></label>
                 <input asp-for="Input.PhoneNumber" class="form-control" />
                 <span asp-validation-for="Input.PhoneNumber" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <img src="@("~/image/"+Model.AppUser.imageName)" asp-append-version="true" width="600" />
+                <label class="boldTextOnProfileSection" asp-for="Input.Description"></label>
+
+                @Html.TextArea("Input.Description", Model.AppUser.Description, new { maxlength = 250, @class = "AboutMe", onkeypress = "countAboutMe(this)" })
+
+                <div style="text-align: right; color: #808080; display: block;">
+                    <div id="charNum"/>
+                    <label>@Model.AppUser.Description.Length/250</label>
+                </div>
+                <span asp-validation-for="Input.Description" class="text-danger"></span>
             </div>
-            <div style="margin-bottom: 40px;">
-                <input asp-for="Input.ImageFile" accept="image/*" />
-                <span asp-validation-for="Input.ImageFile" class="text-danger"></span>
+
+            <div class="form-group">
+                <label class="boldTextOnProfileSection" asp-for="Input.FieldOfStudy"></label>
+                <div>
+                    <select asp-for="Input.FieldOfStudy" asp-items="Model.Fos.FosList">
+                        <option selected disabled value="">@Model.AppUser.FieldOfStudy</option>
+                    </select>
+                </div>
+                <span asp-validation-for="Input.FieldOfStudy" class="text-danger">
+                </span>
             </div>
-            <button id="update-profile-button" type="submit" class="btn btn-primary">Save</button>
+
+            <div class="form-group">
+                <label class="boldTextOnProfileSection" asp-for="Input.Term"></label>
+                @Html.TextArea("Input.Term", Model.AppUser.Term.ToString(), new { maxlength = 2, @class = "Term" })
+                <span asp-validation-for="Input.Term" class="text-danger"></span>
+            </div>
+
+            <button id="update-profile-button" type="submit" class="btn btn-primary btn-block">Save</button>
         </form>
     </div>
 </div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        function countAboutMe(val) {
+            var len = val.value.length;
+            $('#charNum').text(0 + len);
+            if (len > 250) {
+                val.value = val.value.substring(0, 250);
+            }
+            else {
+                $('#charNum').text(0 + len + "/250");
+            }
+        };
+    </script>
 }

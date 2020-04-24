@@ -1,12 +1,28 @@
-﻿@{
-    Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+﻿@using TestAfLogin.Models
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Manage your account</h1>
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <center>
+                <img class="circular--square" src="@("~/image/" + Model.AppUser.imageName)" asp-append-version="true"/>
+            </center>
+        </div>
+    </div>
+    <div class="col-md-8">  
+        <div class="form-group">
+            <h1>Min profil</h1>
+            <h4>@Html.ViewData.Model.AppUser.Name</h4>
+            <p>@Html.ViewData.Model.AppUser.FieldOfStudy / @Html.ViewData.Model.AppUser.Term. semester</p>
+            <p>@Html.ViewData.Model.AppUser.Description</p>
+        </div>
+    </div>
+</div>
+<hr/>
 
 <div>
-    <h4>Change your account settings</h4>
-    <hr />
     <div class="row">
         <div class="col-md-3">
             <partial name="_ManageNav" />

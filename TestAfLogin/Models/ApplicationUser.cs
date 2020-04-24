@@ -47,17 +47,12 @@ namespace TestAfLogin.Models
         [DisplayName("Image Name")]
         public string imageName { get; set; }
 
+        [Column(TypeName = "nvarchar(250)")]
+        [DisplayName("Om mig")]
+        public string Description { get; set; }
+
         [NotMapped]
         [DisplayName("Upload File")]
         public IFormFile ImageFile { get; set; }
-
-
-
-
-
-
-
-
-
     }
 }

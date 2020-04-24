@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using TestAfLogin.Data;
 using TestAfLogin.Models;
 
 namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
@@ -32,6 +33,9 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
         }
 
         public string Username { get; set; }
+        public string Email { get; set; }
+
+        public FieldOfStudy Fos = new FieldOfStudy();
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -42,20 +46,38 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
         public class InputModel
         {
             [Phone]
-            [Display(Name = "Phone number")]
+            [Display(Name = "Telefon nummer")]
             public string PhoneNumber { get; set; }
 
             [PersonalData]
-            [Display(Name = "Upload file")]
+            [Display(Name = "Skift profilbillede")]
             public IFormFile ImageFile { get; set; }
+
+            [PersonalData]
+            [Display(Name = "Om mig")]
+            public string Description { get; set; }
+
+            [PersonalData]
+            [Display(Name = "Studieretning")]
+            public string FieldOfStudy { get; set; }
+
+            [PersonalData]
+            [Display(Name = "Fødselsdag")]
+            public string Birthday { get; set; }
+
+            [PersonalData]
+            [Display(Name = "Semester")]
+            public int Term { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
         {
             var userName = await _userManager.GetUserNameAsync(user);
             var phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+            var email = await _userManager.GetEmailAsync(user);
             this.AppUser = user;
             Username = userName;
+            Email = email;
 
             Input = new InputModel
             {
@@ -96,7 +118,6 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
                 {
                     await user.ImageFile.CopyToAsync(fileStream);
                 }
-               
             }
         }
 
@@ -118,6 +139,14 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
             if (ModelState.IsValid)
             {
                 ChangeProfilePicture(user);
+
+                if (Input.FieldOfStudy != null)
+                {
+                    user.FieldOfStudy = Input.FieldOfStudy;
+                }
+
+                user.Description = Input.Description;
+                user.Term = Input.Term;
                 await _userManager.UpdateAsync(user);
             }
 
@@ -133,7 +162,7 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            StatusMessage = "Your profile has been updated";
+            StatusMessage = "Din profil er blevet opdateret";
             return RedirectToPage();
         }
     }

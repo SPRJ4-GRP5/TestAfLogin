@@ -11,6 +11,7 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<PersonalDataModel> _logger;
+        public ApplicationUser AppUser { get; set; }
 
         public PersonalDataModel(
             UserManager<ApplicationUser> userManager,
@@ -23,6 +24,7 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
         public async Task<IActionResult> OnGet()
         {
             var user = await _userManager.GetUserAsync(User);
+            this.AppUser = user;
             if (user == null)
             {
                 return NotFound($"Unable to load user with ID '{_userManager.GetUserId(User)}'.");
