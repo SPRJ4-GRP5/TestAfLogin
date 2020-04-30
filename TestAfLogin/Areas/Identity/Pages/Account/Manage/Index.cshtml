@@ -55,6 +55,17 @@
             </div>
 
             <div class="form-group">
+                <label class="boldTextOnProfileSection" asp-for="Input.Faculty"></label>
+                <div>
+                    <select asp-for="Input.Faculty" asp-items="Model.Fac.FacList">
+                        <option selected disabled value="">@Model.AppUser.Faculty</option>
+                    </select>
+                </div>
+                <span asp-validation-for="Input.Faculty" class="text-danger">
+                </span>
+            </div>
+
+            <div class="form-group">
                 <label class="boldTextOnProfileSection" asp-for="Input.FieldOfStudy"></label>
                 <div>
                     <select asp-for="Input.FieldOfStudy" asp-items="Model.Fos.FosList">
@@ -64,6 +75,8 @@
                 <span asp-validation-for="Input.FieldOfStudy" class="text-danger">
                 </span>
             </div>
+
+
 
             <div class="form-group">
                 <label class="boldTextOnProfileSection" asp-for="Input.Term"></label>

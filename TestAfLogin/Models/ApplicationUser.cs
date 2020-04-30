@@ -33,14 +33,13 @@ namespace TestAfLogin.Models
         [PersonalData]
         public string FieldOfStudy { get; set; }
 
+        [Required]
+        [PersonalData]
+        public string Faculty { get; set; }
+
         [PersonalData]
         public int Term { get; set; }
 
-        [PersonalData]
-        public List<CourseModel> courses { get; set; }
-
-        [Column(TypeName = "nvarchar(50)")]
-        public string NameOfUser { get; set; }
 
         [Required]
         [Column(TypeName = "nvarchar(100)")]
@@ -54,5 +53,8 @@ namespace TestAfLogin.Models
         [NotMapped]
         [DisplayName("Upload File")]
         public IFormFile ImageFile { get; set; }
+
+     
+
     }
 }

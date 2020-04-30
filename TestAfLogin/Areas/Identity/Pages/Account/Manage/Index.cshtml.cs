@@ -36,6 +36,7 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
         public string Email { get; set; }
 
         public FieldOfStudy Fos = new FieldOfStudy();
+        public Faculty Fac = new Faculty();
 
         [TempData]
         public string StatusMessage { get; set; }
@@ -68,6 +69,10 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
             [PersonalData]
             [Display(Name = "Semester")]
             public int Term { get; set; }
+
+            [PersonalData]
+            [Display(Name = "Fakultet")]
+            public string Faculty { get; set; }
         }
 
         private async Task LoadAsync(ApplicationUser user)
@@ -145,7 +150,15 @@ namespace TestAfLogin.Areas.Identity.Pages.Account.Manage
                     user.FieldOfStudy = Input.FieldOfStudy;
                 }
 
-                user.Description = Input.Description;
+                if(Input.Faculty != null)
+                {
+                    user.Faculty = Input.Faculty;
+                }
+
+                if (Input.Description != null)
+                {
+                    user.Description = Input.Description;
+                }
                 user.Term = Input.Term;
                 await _userManager.UpdateAsync(user);
             }

@@ -55,6 +55,7 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
 
 
         public FieldOfStudy Fos = new FieldOfStudy();
+        public Faculty Fac = new Faculty();
 
         [BindProperty]
         public InputModel Input { get; set; }
@@ -106,9 +107,6 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
             [Display(Name = "Term")]
             public int Term { get; set; }
 
-            [PersonalData]
-            [Display(Name = "Name of user")]
-            public string NameOfUser { get; set; }
 
             [PersonalData]
             [Display(Name = "Image name")]
@@ -117,6 +115,11 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
             [PersonalData]
             [Display(Name = "Upload file")]
             public IFormFile ImageFile { get; set; }
+
+
+            [PersonalData]
+            [Display(Name = "Fakultet")]
+            public string Faculty { get; set; }
 
         }
 
@@ -146,7 +149,10 @@ namespace TestAfLogin.Areas.Identity.Pages.Account
                     Term = Input.Term,
                     //NameOfUser = Input.NameOfUser
                     //imageName = Input.imageName,
-                    ImageFile = Input.ImageFile
+                    ImageFile = Input.ImageFile,
+                    Description = "",
+                    Faculty = Input.Faculty
+
                 };
 
                 if (user.ImageFile != null)
