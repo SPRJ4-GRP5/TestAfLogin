@@ -44,11 +44,12 @@
             <div class="form-group">
                 <label class="boldTextOnProfileSection" asp-for="Input.Description"></label>
 
-                @Html.TextArea("Input.Description", Model.AppUser.Description, new { maxlength = 250, @class = "AboutMe", onkeypress = "countAboutMe(this)" })
+                @Html.TextArea("Input.Description", Model.AppUser.Description, new { maxlength = 250, @class = "AboutMe", onkeydown = "countAboutMe(this)" })
 
                 <div style="text-align: right; color: #808080; display: block;">
-                    <div id="charNum"/>
-                    <label>@Model.AppUser.Description.Length/250</label>
+                    <div id="charNum">
+                        <label>@Model.AppUser.Description.Length/250</label>
+                    </div>
                 </div>
                 <span asp-validation-for="Input.Description" class="text-danger"></span>
             </div>
