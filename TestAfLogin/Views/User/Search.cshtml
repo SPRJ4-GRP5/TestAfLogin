@@ -1,12 +1,77 @@
-﻿@page
-@model ApplicationUser
+﻿@model ApplicationUser
 @{
+    ViewData["Title"] = @Model.Name;
 }
 
-    <div>
-        Name
-        @Model.Name
+<div class="row">
+    <div class="col-md-3">
+        <div class="form-group">
+            <center>
+                <img class="circular--square" src="@("~/image/" + Model.imageName)" asp-append-version="true" />
+            </center>
+        </div>
+        <div>
+            <center>
+                <h3>Rating</h3>
+                <p>500+ upvotes</p>
+            </center>
+        </div>
     </div>
-
-
-
+    <div class="col-md-8">
+        <div class="form-group">
+            <h1>@Model.Name</h1>
+            <p>@Html.ViewData.Model.FieldOfStudy / @Html.ViewData.Model.Term. semester</p>
+            <p>@Html.ViewData.Model.Description</p>
+        </div>
+        <hr />
+        
+        <div class="row">
+            <div class="col-md-12 offset-md-0">
+                <div class="card authLayout profileInfo">
+                    <div class="row">
+                        <div class="col-md-6 offset-md-0">
+                            <h4>Oplysninger</h4>
+                            <dl>
+                                <dt class="col-sm-20">
+                                    @Html.DisplayNameFor(model => model.Faculty)
+                                </dt>
+                                <dd class="col-sm-20">
+                                    @Html.DisplayFor(model => model.Faculty)
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt class="col-sm-20">
+                                    @Html.DisplayNameFor(model => model.Birthday)
+                                </dt>
+                                <dd class="col-sm-20">
+                                    @Html.DisplayFor(model => model.Birthday)
+                                </dd>
+                            </dl>
+                        </div>
+                        <div class="col-md-6 offset-md-0">
+                            <h4>Kontakt</h4>
+                            <dl>
+                                <dt class="col-sm-0">
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </dt>
+                                <dd class="col-sm-0">
+                                    @Html.DisplayFor(model => model.Email)
+                                </dd>
+                            </dl>
+                            <dl>
+                                <dt class="col-sm-20">
+                                    Telefonnummer
+                                </dt>
+                                <dd class="col-sm-0">
+                                    @Html.DisplayFor(model => model.PhoneNumber)
+                                </dd>
+                            </dl>
+                        </div>
+                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr />
+    </div>
+</div>

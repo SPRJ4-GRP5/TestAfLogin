@@ -27,6 +27,7 @@ namespace TestAfLogin.Models
 
         [Required]
         [PersonalData]
+        [DisplayName("Fødselsdag")]
         public string Birthday { get; set; }
 
         [Required]
@@ -35,11 +36,11 @@ namespace TestAfLogin.Models
 
         [Required]
         [PersonalData]
+        [DisplayName("Fakultet")]
         public string Faculty { get; set; }
 
         [PersonalData]
         public int Term { get; set; }
-
 
         [Required]
         [Column(TypeName = "nvarchar(100)")]
@@ -53,8 +54,5 @@ namespace TestAfLogin.Models
         [NotMapped]
         [DisplayName("Upload File")]
         public IFormFile ImageFile { get; set; }
-
-     
-
     }
 }

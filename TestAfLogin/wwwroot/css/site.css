@@ -189,3 +189,7 @@ a.ex1:visited, a.ex1:hover, a.ex1:link {
     border-radius: 4px;
     background-color: #f8f8f8;
 }
+
+.profileInfo {
+    padding: 25px;
+}

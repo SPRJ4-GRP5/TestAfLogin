@@ -18,26 +18,27 @@ namespace TestAfLogin.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index()
-        {
-            return View();
-        }
+        //public ActionResult Index()
+        //{
+        //    return View();
+        //}
 
         //[HttpPost("{Name}", Name = "Search")]
         [HttpGet]
-        public async Task<IActionResult> Search(string Name)
+        public async Task<IActionResult> Search(string userName)
         {
-            if (Name == null)
+            if (userName == null)
             {
                 return NotFound();
             }
 
             var sUser = await _context.MApplicationUsers
-                .FirstOrDefaultAsync(u => u.Name == Name);
+                .FirstOrDefaultAsync(u => u.UserName == userName);
             if (sUser == null)
             {
                 return NotFound();
             }
+
             return View(sUser);
         }
     }
